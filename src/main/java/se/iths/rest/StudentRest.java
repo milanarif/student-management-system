@@ -48,7 +48,7 @@ public class StudentRest {
     public Response findStudentById(@PathParam("id") Long id) {
         Student foundStudent = studentService.getStudentById(id);
         if (foundStudent == null) {
-            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Student by that " + id + " was not found.").type(MediaType.TEXT_PLAIN_TYPE).build());
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Student by that ID: " + id + " was not found.").type(MediaType.TEXT_PLAIN_TYPE).build());
         } else {
             return Response.ok(foundStudent).build();
         }
@@ -64,9 +64,12 @@ public class StudentRest {
     @Path("{id}")
     @DELETE
     public Response deleteStudent(@PathParam("id") Long id) {
-        Student student = studentService.getStudentById(id);
-        studentService.deleteStudent(student);
-        return Response.ok().build();
+        Student student = studentService.deleteStudent(id);
+        if (student == null) {
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Student by that ID: " + id + " was not found.").type(MediaType.TEXT_PLAIN_TYPE).build());
+        } else {
+            return Response.ok("Student " + student.getFirstName() + " " + student.getLastName() + " was successfully removed.").type(MediaType.TEXT_PLAIN_TYPE).build();
+        }
     }
 
     @Path("/query")

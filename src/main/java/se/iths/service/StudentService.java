@@ -42,9 +42,14 @@ public class StudentService {
         return entityManager.merge(student);
     }
 
-    public Student deleteStudent(Student student) {
-        entityManager.remove(student);
-        return student;
+    public Student deleteStudent(Long id) {
+        Student foundStudent = entityManager.find(Student.class, id);
+        if (foundStudent == null) {
+            return null;
+        } else {
+            entityManager.remove(foundStudent);
+            return foundStudent;
+        }
     }
 
 }
