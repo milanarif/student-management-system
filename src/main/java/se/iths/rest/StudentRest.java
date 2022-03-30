@@ -91,7 +91,12 @@ public class StudentRest {
     @GET
     public Response getAllStudents(){
         List<Student> foundStudents = studentService.getAllStudents();
-        return Response.ok(foundStudents).build();
+
+        if (foundStudents.size() > 0) {
+            return Response.ok(foundStudents).build();
+        } else {
+            return Response.ok("Weird echo....").build();
+        }
     }
 
     @Path("{id}")
@@ -109,6 +114,11 @@ public class StudentRest {
     @GET
     public Response findStudentByLastName(@QueryParam("lastName") String lastName) {
         List<Student> foundStudents = studentService.getStudentsByLastName(lastName);
-        return Response.status(200).entity(foundStudents).build();
+
+        if (foundStudents.size() > 0) {
+            return Response.status(200).entity(foundStudents).build();
+        } else {
+            return Response.status(200).entity("No student match your search: " + lastName).build();
+        }
     }
 }
