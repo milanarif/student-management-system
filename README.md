@@ -52,3 +52,10 @@
 `http://localhost:8080/student-management-system/api/v1/students/query?lastName={lastName}`
 
 ### GET: Returns student(s) with matching last name.
+
+
+---
+## WORKLOG
+Vi har arbetat med det mesta båda två, suttit tillsammans i teams och både parprogrammerat och arbetat individuellt. Båda har varit med på det mesta. Milan jobbade mer med PUT och Philip mer med PATCH. Vi har gjort allt tillsammans och saker har bytt händer mellan commits, vi delade aldrig upp arbetet riktigt utan tog saker i den ordning de dök upp.
+
+![](contributions_github.png)
