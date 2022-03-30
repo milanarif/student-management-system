@@ -31,6 +31,18 @@ public class StudentRest {
         return Response.ok(student).build();
     }
 
+    @Path("patch/{id}")
+    @PATCH
+    public Response patchStudent(@PathParam("id") Long id, Student student) {
+        System.out.println(student);
+        Student patchedStudent = studentService.findStudentById(id);
+
+        // check values inside student and add logic
+
+        return Response.ok(patchedStudent).build();
+    }
+
+
     @Path("{id}")
     @GET
     public Response findStudentById(@PathParam("id") Long id) {
