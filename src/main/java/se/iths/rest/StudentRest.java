@@ -35,7 +35,7 @@ public class StudentRest {
     @PATCH
     public Response patchStudent(@PathParam("id") Long id, Student student) {
         System.out.println(student);
-        Student patchedStudent = studentService.findStudentById(id);
+        Student patchedStudent = studentService.getStudentById(id);
 
         // check values inside student and add logic
 
@@ -46,7 +46,7 @@ public class StudentRest {
     @Path("{id}")
     @GET
     public Response findStudentById(@PathParam("id") Long id) {
-        Student foundStudent = studentService.findStudentById(id);
+        Student foundStudent = studentService.getStudentById(id);
         if (foundStudent == null) {
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Student by that " + id + " was not found.").type(MediaType.TEXT_PLAIN_TYPE).build());
         } else {
@@ -64,14 +64,15 @@ public class StudentRest {
     @Path("{id}")
     @DELETE
     public Response deleteStudent(@PathParam("id") Long id) {
-        studentService.deleteStudent(id);
+        Student student = studentService.getStudentById(id);
+        studentService.deleteStudent(student);
         return Response.ok().build();
     }
 
     @Path("/query")
     @GET
     public Response findStudentByLastName(@QueryParam("lastName") String lastName) {
-        Student foundStudent = studentService.findStudentByLastName(lastName);
-        return Response.status(200).entity(foundStudent).build();
+        List<Student> foundStudents = studentService.getStudentsByLastName(lastName);
+        return Response.status(200).entity(foundStudents).build();
     }
 }
