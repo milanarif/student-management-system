@@ -14,7 +14,6 @@ public class Student {
     @NotEmpty
     private String lastName;
     @NotEmpty
-    @Column(unique =  true)
     private String email;
     private String phoneNumber;
 
@@ -30,6 +29,10 @@ public class Student {
 
     public Long getId() {
         return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

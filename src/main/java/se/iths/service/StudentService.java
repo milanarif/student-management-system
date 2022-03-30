@@ -1,14 +1,12 @@
 package se.iths.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import se.iths.entity.Student;
 
@@ -21,6 +19,13 @@ public class StudentService {
     public Student getStudentById(Long id) {
         Student student = entityManager.find(Student.class, id);
         return student;
+    }
+
+    public List<Student> getByEmail(String email) {
+        return entityManager
+            .createQuery("SELECT s from Student s WHERE s.email=:email", Student.class)
+            .setParameter("email", email)
+            .getResultList();
     }
 
     public Student createStudent(Student student) {
