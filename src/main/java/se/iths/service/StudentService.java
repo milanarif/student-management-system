@@ -39,8 +39,9 @@ public class StudentService {
         return students;
     }
 
-    public Student updateStudent(Student student) {
-        return entityManager.merge(student);
+    public void updateStudent(Student student) {
+        entityManager.merge(student);
+        //return entityManager.merge(student);
     }
 
     public Student deleteStudent(Long id) {
