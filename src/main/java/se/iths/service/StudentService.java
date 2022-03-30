@@ -19,6 +19,13 @@ public class StudentService {
         return student;
     }
 
+    public List<Student> getByEmail(String email) {
+        return entityManager
+            .createQuery("SELECT s from Student s WHERE s.email=:email", Student.class)
+            .setParameter("email", email)
+            .getResultList();
+    }
+
     public Student createStudent(Student student) {
         entityManager.persist(student);
         return student;
@@ -52,5 +59,4 @@ public class StudentService {
             return foundStudent;
         }
     }
-
 }

@@ -1,7 +1,6 @@
 package se.iths.entity;
 
 import javax.persistence.*;
-import javax.validation.Constraint;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -15,7 +14,6 @@ public class Student {
     @NotEmpty
     private String lastName;
     @NotEmpty
-    @Column(unique = true)
     private String email;
     private String phoneNumber;
 
