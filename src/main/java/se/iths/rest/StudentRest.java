@@ -20,6 +20,10 @@ public class StudentRest {
     @Path("")
     @POST
     public Response createStudent(Student student){
+        if (student.getFirstName().isBlank() || student.getLastName().isBlank() || student.getEmail().isBlank()) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity("New user must include firstname, lastname and email").type(MediaType.TEXT_PLAIN_TYPE).build());
+        }
+
         if(!studentService.getByEmail(student.getEmail()).isEmpty()) {
             throw new WebApplicationException(Response.status(Response.Status.CONFLICT).entity("Email: " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build());
         } else {
