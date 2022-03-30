@@ -20,7 +20,7 @@ public class StudentRest {
     @Path("")
     @POST
     public Response createStudent(Student student){
-        if (student.getFirstName().isBlank() || student.getLastName().isBlank() || student.getEmail().isBlank()) {
+        if (student.getFirstName() == null || student.getLastName() == null || student.getEmail() == null) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity("New user must include firstname, lastname and email").type(MediaType.TEXT_PLAIN_TYPE).build());
         }
 
