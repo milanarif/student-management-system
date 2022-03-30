@@ -41,7 +41,6 @@ public class StudentService {
 
     public void updateStudent(Student student) {
         entityManager.merge(student);
-        //return entityManager.merge(student);
     }
 
     public Student deleteStudent(Long id) {

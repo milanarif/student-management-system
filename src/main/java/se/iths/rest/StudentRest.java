@@ -34,7 +34,6 @@ public class StudentRest {
     @Path("patch/{id}")
     @PATCH
     public Response patchStudent(@PathParam("id") Long id, Student student) {
-        System.out.println(student);
         Student patchedStudent = studentService.getStudentById(id);
 
         // check values inside student and add logic
