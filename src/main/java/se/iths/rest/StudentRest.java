@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("students")
@@ -46,17 +47,37 @@ public class StudentRest {
             studentService.updateStudent(student);
             return Response.ok(student).build();
         }
-
     }
 
-    @Path("patch/{id}")
+    @Path("{id}")
     @PATCH
     public Response patchStudent(@PathParam("id") Long id, Student student) {
-        Student patchedStudent = studentService.getStudentById(id);
+        List<String> response = new ArrayList();
+        boolean emailExists = false;
 
-        // check values inside student and add logic
-
-        return Response.ok(patchedStudent).build();
+        if (studentService.getStudentById(id) == null) {
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Student by that ID: " + id + " was not found.").type(MediaType.TEXT_PLAIN_TYPE).build());
+        } else {
+            if (student.getEmail() != null) {
+                studentService.updateStudentEmail(id, student.getEmail(), emailExists);
+                response.add("Email: " + student.getEmail());
+            }
+            if (!emailExists) {
+                if (student.getFirstName() != null) {
+                    studentService.updateStudentFirstName(id, student.getFirstName());
+                    response.add("FirstName: " + student.getFirstName());
+                }
+                if (student.getLastName() != null) {
+                    studentService.updateStudentLastName(id, student.getLastName());
+                    response.add("LastName: " + student.getLastName());
+                }
+                if (student.getPhoneNumber() != null) {
+                    studentService.updateStudentPhoneNumber(id, student.getPhoneNumber());
+                    response.add("PhoneNumber: " + student.getPhoneNumber());
+                }
+            }
+        }
+        return Response.status(Response.Status.OK).entity("Student successfully updated.\n" + response).build();
     }
 
 

@@ -1,7 +1,10 @@
 package se.iths.service;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -48,6 +51,7 @@ public class StudentService {
 
     public void updateStudent(Student student) {
         entityManager.merge(student);
+        //return entityManager.merge(student);
     }
 
     public Student deleteStudent(Long id) {
@@ -58,5 +62,34 @@ public class StudentService {
             entityManager.remove(foundStudent);
             return foundStudent;
         }
+    }
+
+    public void updateStudentFirstName(Long id, String firstName) {
+        Student student = entityManager.find(Student.class, id);
+        student.setFirstName(firstName);
+    }
+
+    public void updateStudentLastName(Long id, String lastName) {
+        Student student = entityManager.find(Student.class, id);
+        student.setLastName(lastName);
+    }
+
+    public Boolean updateStudentEmail(Long id, String email, boolean emailExists) {
+        Student student = entityManager.find(Student.class, id);
+        List<Student> allStudents = getAllStudents();
+        List<Student> doesStudentEmailExist = allStudents.stream().filter(s -> s.getEmail().equals(email)).collect(Collectors.toList());
+
+        if (doesStudentEmailExist.size() > 0) {
+            emailExists = true;
+            throw new WebApplicationException(Response.status(Response.Status.CONFLICT).entity("Student with that Email: " + email + " already exists.").type(MediaType.TEXT_PLAIN_TYPE).build());
+        } else {
+            student.setEmail(email);
+        }
+        return emailExists;
+    }
+
+    public void updateStudentPhoneNumber(Long id, String phoneNumber) {
+        Student student = entityManager.find(Student.class, id);
+        student.setPhoneNumber(phoneNumber);
     }
 }
