@@ -26,7 +26,8 @@ public class StudentService {
 
     public List<Student> getStudentsByLastName(String lastName) {
         List<Student> students = entityManager
-                .createQuery("SELECT s FROM Student s WHERE s.lastName=" + lastName, Student.class)
+                .createQuery("SELECT s FROM Student s WHERE s.lastName=:lastName", Student.class)
+                .setParameter("lastName", lastName)
                 .getResultList();
         return students;
     }
