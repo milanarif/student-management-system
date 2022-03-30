@@ -54,7 +54,7 @@ public class StudentRest {
         }
     }
 
-    @Path("all")
+    @Path("")
     @GET
     public Response getAllStudents(){
         List<Student> foundStudents = studentService.getAllStudents();
