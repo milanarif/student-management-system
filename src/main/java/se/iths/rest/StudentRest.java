@@ -2,7 +2,6 @@ package se.iths.rest;
 
 import se.iths.entity.Student;
 import se.iths.service.StudentService;
-import se.iths.exception.EmailOccupiedException;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -21,23 +20,27 @@ public class StudentRest {
     @POST
     public Response createStudent(Student student){
         if(!studentService.getByEmail(student.getEmail()).isEmpty()) {
-            throw new EmailOccupiedException(Response.status(Response.Status.CONFLICT).entity("Email: " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build());
+            throw new WebApplicationException(Response.status(Response.Status.CONFLICT).entity("Email: " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build());
         } else {
             studentService.createStudent(student);
-            return Response.ok(student).build();
+            return Response.status(201).entity(student).build();
         }
     }
 
     @Path("")
     @PUT
     public Response updateStudent(Student student) {
+        if (student.getId() == null) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity("You must include id in request body").type(MediaType.TEXT_PLAIN_TYPE).build());
+        }
+
         Student targetStudent = studentService.getStudentById(student.getId());
 
         if (targetStudent == null) {
             return createStudent(student);
         }
         else if (!student.getEmail().equals(targetStudent.getEmail()) && !studentService.getByEmail(student.getEmail()).isEmpty()) {
-            throw new EmailOccupiedException(Response.status(Response.Status.CONFLICT).entity("Email: " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build());
+            throw new WebApplicationException(Response.status(Response.Status.CONFLICT).entity("Email: " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build());
         }
         else {
             studentService.updateStudent(student);
