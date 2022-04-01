@@ -1,5 +1,6 @@
 package se.iths.rest;
 
+import se.iths.DuplicateEmailException;
 import se.iths.entity.Student;
 import se.iths.service.StudentService;
 import javax.inject.Inject;
@@ -25,7 +26,7 @@ public class StudentRest {
         }
 
         if(!studentService.getByEmail(student.getEmail()).isEmpty()) {
-            throw new WebApplicationException(Response.status(Response.Status.CONFLICT).entity("Email: " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build());
+            throw new DuplicateEmailException();
         } else {
             studentService.createStudent(student);
             return Response.status(201).entity(student).build();
@@ -45,7 +46,7 @@ public class StudentRest {
             return createStudent(student);
         }
         else if (!student.getEmail().equals(targetStudent.getEmail()) && !studentService.getByEmail(student.getEmail()).isEmpty()) {
-            throw new WebApplicationException(Response.status(Response.Status.CONFLICT).entity("Email: " + student.getEmail() + " is already taken.").type(MediaType.TEXT_PLAIN_TYPE).build());
+            throw new DuplicateEmailException();
         }
         else {
             studentService.updateStudent(student);

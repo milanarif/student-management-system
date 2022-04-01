@@ -2,13 +2,11 @@ package se.iths.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import se.iths.DuplicateEmailException;
 import se.iths.entity.Student;
 
 @Transactional
@@ -80,7 +78,7 @@ public class StudentService {
 
         if (doesStudentEmailExist.size() > 0) {
             emailExists = true;
-            throw new WebApplicationException(Response.status(Response.Status.CONFLICT).entity("Student with that Email: " + email + " already exists.").type(MediaType.TEXT_PLAIN_TYPE).build());
+            throw new DuplicateEmailException();
         } else {
             student.setEmail(email);
         }
