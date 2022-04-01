@@ -7,6 +7,8 @@
 - String email : Student's email (**unique**)
 - String phoneNumber : Student's phone number **optional**
 
+## Custom Exception
+DuplicateEmailException is a custom exception when duplicate emails are detected.
 ---
 ## Endpoints
 
