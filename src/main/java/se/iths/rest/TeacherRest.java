@@ -1,6 +1,7 @@
 package se.iths.rest;
 
 import se.iths.entity.Teacher;
+import se.iths.service.TeacherService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -21,7 +22,7 @@ public class TeacherRest {
         if (teacher.getFirstName() == null || teacher.getLastName() == null) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity("New teacher must include firstname & lastname").type(MediaType.TEXT_PLAIN_TYPE).build());
         } else {
-            teacherService.createTeacher(teacher);
+            teacherService.addTeacher(teacher);
             return Response.status(201).entity(teacher).build();
         }
     }
