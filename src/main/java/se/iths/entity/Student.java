@@ -18,10 +18,14 @@ public class Student {
     private String email;
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Student> students;
+    @ManyToMany(mappedBy = "students", cascade = CascadeType.PERSIST)
+    private List<Subject> subjects;
 
     public Student() {
+    }
+
+    public Student(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 
     public Student(String firstName, String lastName, String email, String phoneNumber) {

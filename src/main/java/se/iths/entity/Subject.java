@@ -14,10 +14,10 @@ public class Subject {
     @NotEmpty
     private String name;
 
-    @OneToMany(targetEntity = Student.class, mappedBy = "subject")
+    @ManyToMany(targetEntity = Student.class)
     private List<Student> students;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Teacher.class)
     private Teacher teacher;
 
     public Subject() {
