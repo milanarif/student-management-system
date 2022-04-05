@@ -32,7 +32,8 @@ public class SubjectRest {
     @POST
     public Response createSubject(Subject subject) {
         if (subject.getName() == null) {
-            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity("include name").type(MediaType.TEXT_PLAIN_TYPE).build());
+            return Response.status(400).entity(new HttpError(400, "Name is required for Subject")).type(MediaType.APPLICATION_JSON
+            ).build();
         } else {
             subjectService.createSubject(subject);
             return Response.status(201).entity(subject).build();
@@ -81,16 +82,17 @@ public class SubjectRest {
     @Path("{id}")
     @DELETE
     public Response deleteSubject(@PathParam("id") Long id) {
-        Subject subject = subjectService.deleteSubject(id);
+        Subject subject = subjectService.getSubjectById(id);
         if (subject == null) {
             return Response.status(404).entity(new HttpError(404, "Subject by that ID: " + id + " was not found.")).type(MediaType.APPLICATION_JSON
             ).build();
         } else {
+            subjectService.deleteSubject(id);
             return Response.ok("Subject " + subject.getName() + " was successfully removed.").type(MediaType.TEXT_PLAIN_TYPE).build();
         }
     }
 
-    @Path("/enroll/{id}")
+    @Path("/student/{id}")
     @POST
     public Response enrollStudent(@PathParam("id") Long subjectId, Student student) {
 
@@ -109,7 +111,7 @@ public class SubjectRest {
         }
     }
 
-    @Path("/assign/{id}")
+    @Path("/teacher/{id}")
     @POST
     public Response assignTeacher(@PathParam("id") Long subjectId, Teacher teacher) {
         Subject foundSubject = subjectService.getSubjectById(subjectId);

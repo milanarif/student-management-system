@@ -54,11 +54,12 @@ public class TeacherRest {
     @Path("{id}")
     @DELETE
     public Response deleteTeacher(@PathParam("id") Long id) {
-        Teacher teacher = teacherService.deleteTeacher(id);
+        Teacher teacher = teacherService.getTeacherById(id);
         if (teacher == null) {
             //throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Teacher by that ID: " + id + " was not found.").type(MediaType.TEXT_PLAIN_TYPE).build());
             return Response.status(404).entity(new HttpError(404, "Teacher by that ID: " + id + " was not found.")).type(MediaType.APPLICATION_JSON).build();
         } else {
+            teacherService.deleteTeacher(id);
             return Response.ok("Teacher " + teacher.getFirstName() + " " + teacher.getLastName() + " was successfully removed.").type(MediaType.TEXT_PLAIN_TYPE).build();
         }
     }
