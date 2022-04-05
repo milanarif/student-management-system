@@ -27,7 +27,7 @@ public class SubjectService {
 
     public List<Subject> getAllSubjects() {
         List<Subject> subjects = entityManager
-                .createQuery("Select s from Student s", Subject.class)
+                .createQuery("Select s from Subject s", Subject.class)
                 .getResultList();
         return subjects;
     }
