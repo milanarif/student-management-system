@@ -24,10 +24,6 @@ public class Student {
     public Student() {
     }
 
-    public Student(List<Subject> subjects) {
-        this.subjects = subjects;
-    }
-
     public Student(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -74,4 +70,13 @@ public class Student {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
 }
