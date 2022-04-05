@@ -1,5 +1,7 @@
 package se.iths.service;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -25,6 +27,12 @@ public class TeacherService {
         Teacher teacher = entityManager.find(Teacher.class, id);
         entityManager.remove(teacher);
         return teacher;
+    }
+
+    public List<Teacher> getAllTeachers() {
+        return entityManager
+                .createQuery("Select t from Teacher t", Teacher.class)
+                .getResultList();
     }
     
 }
