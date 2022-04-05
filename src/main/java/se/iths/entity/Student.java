@@ -19,7 +19,7 @@ public class Student {
     private String phoneNumber;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Subject> subjects;
+    private List<Student> students;
 
     public Student() {
     }

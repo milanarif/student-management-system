@@ -1,12 +1,10 @@
 package se.iths.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+@Entity
 public class Subject {
 
     @Id
@@ -19,6 +17,7 @@ public class Subject {
     @OneToMany(targetEntity = Student.class, mappedBy = "subject")
     private List<Student> students;
 
+    @ManyToOne
     private Teacher teacher;
 
     public Subject() {
