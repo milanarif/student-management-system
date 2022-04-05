@@ -1,6 +1,7 @@
 package se.iths.rest;
 
 import se.iths.entity.Subject;
+import se.iths.service.SubjectService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -37,6 +38,17 @@ public class SubjectRest {
         }
     }
 
+    @Path("{id}")
+    @GET
+    public Response getSubjectById(@PathParam("id") Long id){
+        Subject foundSubject = subjectService.getSubjectById(id);
+        if (foundSubject == null) {
+            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Subject by that ID: " + id + " was not found.").type(MediaType.TEXT_PLAIN_TYPE).build());
+        } else {
+            return Response.ok(foundSubject).build();
+        }
+    }
+
     @Path("/query")
     @GET
     public Response findSubjectByName(@QueryParam("name") String name) {
@@ -58,5 +70,22 @@ public class SubjectRest {
         } else {
             return Response.ok("Subject " + subject.getName() + " was successfully removed.").type(MediaType.TEXT_PLAIN_TYPE).build();
         }
+    }
+
+    @Path("/enroll")
+    @POST
+    public Response enrollStudent(@FormParam("subjectId") Long subjectId, @FormParam("studentId") Long studentId) {
+        subjectService.enrollStudent(subjectId, studentId);
+
+        return Response.status(Response.Status.OK).entity("Student enrolled to course " + subjectId).build();
+    }
+
+    @Path("/assign")
+    @POST
+    public Response assignTeacher(@FormParam("subjectId") Long subjectId, @FormParam("teacherId") Long teacherId) {
+        subjectService.assignTeacher(subjectId, teacherId);
+
+        return Response.status(Response.Status.OK).entity("Teacher enrolled to course " + subjectId).build();
+
     }
 }
