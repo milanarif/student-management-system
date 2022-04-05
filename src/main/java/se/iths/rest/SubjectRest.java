@@ -1,5 +1,6 @@
 package se.iths.rest;
 
+import se.iths.HttpError;
 import se.iths.entity.Student;
 import se.iths.entity.Subject;
 import se.iths.entity.Teacher;
@@ -47,7 +48,9 @@ public class SubjectRest {
     public Response getSubjectById(@PathParam("id") Long id){
         Subject foundSubject = subjectService.getSubjectById(id);
         if (foundSubject == null) {
-            throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Subject by that ID: " + id + " was not found.").type(MediaType.TEXT_PLAIN_TYPE).build());
+            //throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Subject by that ID: " + id + " was not found.").type(MediaType.APPLICATION_JSON).build());
+            return Response.status(404).entity(new HttpError(404, "Subject by that ID: " + id + " was not found.")).type(MediaType.APPLICATION_JSON
+            ).build();
         } else {
             List<Student> enrolledStudents = subjectService.getEnrolledStudents(id);
             Teacher assignedTeacher = subjectService.getTeacher(id);
