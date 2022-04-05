@@ -25,6 +25,21 @@ public class SubjectService {
         return subject;
     }
 
+    public List<Subject> getAllSubjects() {
+        List<Subject> subjects = entityManager
+                .createQuery("Select s from Student s", Subject.class)
+                .getResultList();
+        return subjects;
+    }
+
+    public List<Subject> getSubjectByName(String name) {
+        List<Subject> subjects = entityManager
+                .createQuery("SELECT s FROM Subject s WHERE s.name=:name", Subject.class)
+                .setParameter("name", name)
+                .getResultList();
+        return subjects;
+    }
+
     public Student enrollStudent(Long subjectId, Long studentId) {
         Subject subject = entityManager.find(Subject.class, subjectId);
         Student student = entityManager.find(Student.class, studentId);
