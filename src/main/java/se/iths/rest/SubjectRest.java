@@ -1,6 +1,8 @@
 package se.iths.rest;
 
+import se.iths.entity.Student;
 import se.iths.entity.Subject;
+import se.iths.entity.Teacher;
 import se.iths.service.SubjectService;
 
 import javax.inject.Inject;
@@ -45,19 +47,9 @@ public class SubjectRest {
         if (foundSubject == null) {
             throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity("Subject by that ID: " + id + " was not found.").type(MediaType.TEXT_PLAIN_TYPE).build());
         } else {
-            return Response.ok(foundSubject).build();
-        }
-    }
-
-    @Path("/query")
-    @GET
-    public Response findSubjectByName(@QueryParam("name") String name) {
-        List<Subject> foundSubject = subjectService.getSubjectByName(name);
-
-        if (foundSubject.size() > 0) {
-            return Response.status(200).entity(foundSubject).build();
-        } else {
-            return Response.status(200).entity("No subject match your search: " + name).build();
+            List<Student> enrolledStudents = subjectService.getEnrolledStudents(id);
+            Teacher assignedTeacher = subjectService.getTeacher(id);
+            return Response.ok("Subject: " + foundSubject + "\nTeacher: " + assignedTeacher + "\nStudents: " + enrolledStudents).build();
         }
     }
 
