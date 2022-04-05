@@ -4,37 +4,36 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+
 @Entity
-public class Student {
+public class Teacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @NotEmpty
     private String firstName;
+
     @NotEmpty
     private String lastName;
-    @NotEmpty
-    private String email;
-    private String phoneNumber;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Subject> subjects;
 
-    public Student() {
+    public Teacher() {
+
     }
 
-    public Student(String firstName, String lastName, String email, String phoneNumber) {
+    public Teacher(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -55,19 +54,11 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public List<Subject> getSubjects() {
+        return subjects;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 }
