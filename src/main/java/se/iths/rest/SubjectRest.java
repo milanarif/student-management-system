@@ -9,7 +9,9 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("subjects")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -49,7 +51,11 @@ public class SubjectRest {
         } else {
             List<Student> enrolledStudents = subjectService.getEnrolledStudents(id);
             Teacher assignedTeacher = subjectService.getTeacher(id);
-            return Response.ok("Subject: " + foundSubject + "\nTeacher: " + assignedTeacher + "\nStudents: " + enrolledStudents).build();
+            List<String> students = new ArrayList<>();
+            enrolledStudents.stream().forEach(s -> students.add(s.getFirstName() + " " + s.getLastName()));
+
+
+            return Response.ok("Subject: " + foundSubject.getName() + "\nTeacher: " + assignedTeacher.getFirstName() + " " +  assignedTeacher.getLastName() + "\nStudents: " + students).build();
         }
     }
 
@@ -64,20 +70,19 @@ public class SubjectRest {
         }
     }
 
-    @Path("/enroll")
+    @Path("/enroll/{id}")
     @POST
-    public Response enrollStudent(@FormParam("subjectId") Long subjectId, @FormParam("studentId") Long studentId) {
-        subjectService.enrollStudent(subjectId, studentId);
+    public Response enrollStudent(@PathParam("id") Long subjectId, Student student) {
+        subjectService.enrollStudent(subjectId, student.getId());
 
         return Response.status(Response.Status.OK).entity("Student enrolled to course " + subjectId).build();
     }
 
-    @Path("/assign")
+    @Path("/assign/{id}")
     @POST
-    public Response assignTeacher(@FormParam("subjectId") Long subjectId, @FormParam("teacherId") Long teacherId) {
-        subjectService.assignTeacher(subjectId, teacherId);
+    public Response assignTeacher(@PathParam("id") Long subjectId, Teacher teacher) {
+        subjectService.assignTeacher(subjectId, teacher.getId());
 
         return Response.status(Response.Status.OK).entity("Teacher enrolled to course " + subjectId).build();
-
     }
 }
