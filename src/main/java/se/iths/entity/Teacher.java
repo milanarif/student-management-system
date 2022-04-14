@@ -17,7 +17,7 @@ public class Teacher {
     @NotEmpty
     private String lastName;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.PERSIST)
     private List<Subject> subjects;
 
     public Teacher() {
