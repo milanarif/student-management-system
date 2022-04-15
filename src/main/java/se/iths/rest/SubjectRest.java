@@ -92,7 +92,7 @@ public class SubjectRest {
         }
     }
 
-    @Path("/student/{id}")
+    @Path("{id}/addStudent")
     @POST
     public Response enrollStudent(@PathParam("id") Long subjectId, Student student) {
 
@@ -111,7 +111,7 @@ public class SubjectRest {
         }
     }
 
-    @Path("/teacher/{id}")
+    @Path("{id}/addTeacher")
     @POST
     public Response assignTeacher(@PathParam("id") Long subjectId, Teacher teacher) {
         Subject foundSubject = subjectService.getSubjectById(subjectId);
