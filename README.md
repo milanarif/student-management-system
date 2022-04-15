@@ -73,36 +73,6 @@ DuplicateEmailException is a custom exception when duplicate emails are detected
 
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Teachers
 
 `http://localhost:8080/student-management-system/api/v1/teachers`
@@ -126,6 +96,42 @@ DuplicateEmailException is a custom exception when duplicate emails are detected
 ## Subjects
 `http://localhost:8080/student-management-system/api/v1/subjects`
 
+### GET: Returns all subjects
+
+`http://localhost:8080/student-management-system/api/v1/subjects/{id}`
+
+### GET: Returns subject with specified id.
+
+### POST: Add new subject, (see example below).
+
+```
+{
+    "name": "example"
+}
+```
+---
+`http://localhost:8080/student-management-system/api/v1/subjects/{id}`
+### DELETE: Delete subject
+---
+`http://localhost:8080/student-management-system/api/v1/subjects/{subjectId}/addteacher`
+
+### POST: Add teacher with id in JSON format body (see example below)
+
+```
+{
+    "id":1
+}
+```
+---
+`http://localhost:8080/student-management-system/api/v1/subjects/{subjectId}/addstudent`
+
+### POST: Add student with id in JSON format body (see example below)
+
+```
+{
+    "id":1
+}
+```
 
 
 ## WORKLOG
