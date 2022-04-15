@@ -18,9 +18,6 @@ public class Student {
     private String email;
     private String phoneNumber;
 
-    @ManyToMany(mappedBy = "students", cascade = CascadeType.PERSIST)
-    private List<Subject> subjects;
-
     public Student() {
     }
 
@@ -70,13 +67,4 @@ public class Student {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-    public List<Subject> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(List<Subject> subjects) {
-        this.subjects = subjects;
-    }
-
 }

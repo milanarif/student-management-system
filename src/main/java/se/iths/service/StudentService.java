@@ -2,18 +2,24 @@ package se.iths.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import se.iths.DuplicateEmailException;
 import se.iths.entity.Student;
+import se.iths.entity.Subject;
 
 @Transactional
 public class StudentService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Inject
+    SubjectService subjectService;
 
     public Student getStudentById(Long id) {
         Student student = entityManager.find(Student.class, id);
@@ -52,13 +58,18 @@ public class StudentService {
     }
 
     public Student deleteStudent(Long id) {
-        Student foundStudent = entityManager.find(Student.class, id);
-        if (foundStudent == null) {
-            return null;
-        } else {
-            entityManager.remove(foundStudent);
-            return foundStudent;
+        Student student = entityManager.find(Student.class, id);
+
+        List<Subject> subjects = subjectService.getAllSubjects();
+        
+        for (Subject subject : subjects) {
+            if (subject.getStudents().contains(student)) {
+                subject.getStudents().remove(student);
+                entityManager.merge(subject);
+            }
         }
+        entityManager.remove(student);
+        return student;
     }
 
     public void updateStudentFirstName(Long id, String firstName) {
